@@ -1,0 +1,502 @@
+<!doctype html>
+<html>
+<head>
+    <title>MeGoGo Front-end Test Task</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, sans-serif;
+        }
+        .header, .content, .tables {
+            width: 1200px; /* will be changed with Media queries, max = 1200px*/
+            margin: 0 auto;
+        }
+
+        .header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            height: 120px;
+            padding: 20px 35px;
+            box-sizing: border-box;
+        }
+        
+        .lang-box {
+            float: left;
+            height: 23px;
+            width: 30px;
+            line-height: 23px;
+            font-size: 15px;
+            text-align: center;
+            border: 1px solid black;
+            border-right: none;
+        }
+        
+        .lang-box:last-child {
+            border-right: 1px solid black;
+        }
+        
+        .disabled {
+            border-color: #ddd;
+            background-color: white;
+            color:#ddd;
+        }
+        
+        .logo {
+            align-self: flex-start;
+            padding-top: 32px;
+            width: 200px;
+            flex-basis: 200px;
+        }
+        
+        .logo .logo-image {
+            padding-bottom: 5px;
+        }
+        
+        .logo .logo-text {
+            font-family: LinotypeUnivers;
+            font-size: 16.3px;
+        }
+        
+        .menus {
+            
+        }
+        
+        .menus-narrow {
+            float: right;
+            min-width: 130px;
+            display: none;
+        }
+        
+        .menu-button {
+            height: 32px;
+            line-height: 32px;
+            margin-bottom: 10px;
+            border: 1px solid #333333;
+            text-align: center;
+        }
+        
+        .menu-button:hover {
+            cursor: pointer;
+        }
+        
+        .nav {
+            margin-top: 0px;
+            margin-bottom: 40px;
+            padding-left: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .nav li {
+            float: left;
+            padding-right: 25px;
+        }
+        
+        .nav li:first-child {
+            padding-left: 0;
+        }
+        
+        .nav li:last-child {
+            padding-right: 0;
+        }
+        
+        .nav, .menu, .pages {
+            list-style: none;
+        }
+        
+        .menu li {
+            float: left;
+            padding-left: 25px;
+            border-left: 1px solid black;
+        }
+        
+        .menu li:nth-child(1) {
+            border-left: none;
+        }
+        
+        .clearfix {
+            clear: both;
+        }
+        
+        .jumbotron {
+            margin-right: -2px;
+            margin-bottom: -2px;
+        }
+        
+        .jumbotron:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+        .column-container {
+            float: left;
+            width: 50%;
+            height: 400px;
+            overflow: hidden;
+            margin: 0;
+            padding: 1px;
+            box-sizing: border-box;
+        }
+        
+        .column-container .column {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #323232;
+            font-family: sans-serif;
+        }
+        
+        .column .background {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0.6;
+        }
+        
+        .column .item {
+            position: relative;
+            z-index: 100;
+            width: 440px;
+            text-align: center;
+        }
+        
+        .column .item .menu {
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+        }
+        
+        .column .item .menu li {
+            margin-right: -1px;
+            padding: 0 10px;
+            border-left: 1px solid white;
+            border-right: 1px solid white;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .column .item .menu::after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+        
+        .cc-wide {
+            width: 75%;
+        }
+        
+        .cc-narrow {
+            width: 25%;
+        }
+        
+        #charts {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        #charts .column {
+            background-color: transparent;
+        }
+        
+        .article {
+            color: white;
+        }
+        
+        .article .headline, .article .text {
+            margin-bottom: 20px;
+        }
+        
+        .article .headline {
+            font-size: 24px;
+        }
+        
+        .article .text {
+            font-size: 14px;
+            line-height: 24px;
+        }
+        
+        .cc-narrow .article {
+            width: 70%;
+            margin: 0 15%;
+        }
+        
+        .column .pages-holder {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        
+        .column .pages {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .column .pages .page {
+            float: left;
+            margin: 20px 12.5px;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .column .pages .page.active {
+            background-color: rgba(255, 255, 255, 1);;
+        }
+        
+        .my-button {
+            background-color: #323232;
+            width: 150px;
+            height: 32px;
+            line-height: 32px;
+            border: 1px solid white;
+            margin-bottom: 9px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .my-button select {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding-left: 10px;
+            border: 0;
+            background-color: transparent;
+            color: white;
+        }
+        
+        .my-button select option {
+            background-color: #323232;
+        }
+        
+        .bg {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            opacity: 0.6;
+        }
+        
+        .bg-1 {
+            background-image: url(images/item1.png);
+        }
+        
+        .bg-2 {
+            background-image: url(images/item2.png);
+        }
+        
+        .bg-3 {
+            background-image: url(images/item3.png);
+        }
+        
+        .hidden {
+            display: none!important;
+        }
+        
+        .shadow-border {
+            box-shadow: 
+                1px 0 0 0 #888, 
+                0 1px 0 0 #888, 
+                1px 1px 0 0 #888,   /* Just to fix the corner */
+                1px 0 0 0 #888 inset, 
+                0 1px 0 0 #888 inset;
+        }
+        
+        @media (max-width: 768px) {
+            .header, .content, .tables {
+                width: 100%;
+                min-width: 510px;
+            }
+            
+            .header {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .jumbotron {
+                margin-right: 0;
+            }
+            
+            .column, .cc-wide, .cc-narrow {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            .top-menu {
+                margin-bottom: 20px;
+            }
+            
+            .menus {
+                display: none!important;
+            }
+            
+            .menus-narrow {
+                display: block!important;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1219px) {
+            .header, .content, .tables {
+                width: 98%;
+            }
+            
+            .header {
+                padding-left: 20px;
+                padding-right: 20px;
+                justify-content: flex-end;
+            }
+            
+            .logo {
+                position: absolute;
+                top: -5px;
+                left: 20px;
+            }
+
+            .cc-wide, .cc-narrow {
+                width: 49.8%;
+            }
+            
+            .column {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+        }
+        
+    </style>
+</head>
+    
+<body>
+    <div class="header">
+        <div class="logo">
+            <img class="logo-image" src="images/logo.png">
+            <div class="logo-text">Inform. Connect. Inspire.</div>
+        </div>
+        <div class="menus">
+            <ul class="nav top-menu">
+                <li>Uber uns</li>
+                <li>Redaktion</li>
+                <li>
+                    <div class="lang-box disabled">DE</div>
+                    <div class="lang-box">EN</div>
+                </li>    
+            </ul>
+            <ul class="nav menu">
+                <li><img src="images/icon-search.png"></li>
+                <li>DESIGN+LIFESTYLE</li>
+                <li>TRENDS</li>
+                <li>INFODELIGHT</li>
+                <li>SMART LIVING</li>
+            </ul>
+        </div>
+        <div class="menus-narrow">
+            <ul class="nav top-menu">
+                <li>Uber uns</li>
+                <li>Redaktion</li>
+                <li>
+                    <div class="lang-box disabled">DE</div>
+                    <div class="lang-box">EN</div>
+                </li>    
+            </ul>
+
+            <div class="menu-button" type="button">Menu</div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="jumbotron">
+            <div class="column-container cc-wide">
+                <div class="column">
+                    <div class="bg bg-1">
+                    </div>
+                    <div class="item">
+                        <ul class="menu">
+                            <li>DESIGN+LIFESTYLE</li>
+                            <li>SMART LIVING</li>
+                        </ul>
+                        <div class="article">
+                            <div class="headline">Was hilft mir, Energie zu sparen und Spa&beta; zu haben, bei mir zu Hause?</div>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut  dolor in reprehenderit in quia...</div>
+                        </div>
+                    </div>
+                    <div class="pages-holder">
+                        <div class="pages">
+                            <div class="page"></div>
+                            <div class="page"></div>
+                            <div class="page"></div>
+                            <div class="page"></div>
+                            <div class="page active"></div>
+                            <div class="page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column-container cc-narrow">
+                <div class="column">
+                    <div class="article">
+                        <div class="headline">A place called Inspiration.</div>
+                        <p class="text">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam voluptatem.</p>
+                        <div class="my-button">
+                            <select id="chart-type">
+                                <option value="pie">pie</option>
+                                <option value="bar">bar</option>
+                                <option value="line">line</option>
+                            </select>
+                        </div>
+                        <div class="my-button" id="insertChart">Insert</div>
+                    </div>
+                </div>
+            </div>
+            <div class="column-container">
+                <div class="column">
+                    <div class="bg bg-2"></div>
+                    <div class="item">
+                        <ul class="menu">
+                            <li>DESIGN+LIFESTYLE</li>
+                            <li>SMART LIVING</li>
+                        </ul>
+                        <div class="article">
+                            <div class="headline">Was hilft mir, Energie zu sparen und Spa&beta; zu haben, bei mir zu Hause?</div>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut  dolor in reprehenderit in quia...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column-container">
+                <div class="column">
+                    <div class="bg bg-3"></div>
+                    <div class="item">
+                        <ul class="menu">
+                            <li>DESIGN+LIFESTYLE</li>
+                            <li>SMART LIVING</li>
+                        </ul>
+                        <div class="article">
+                            <div class="headline">Was hilft mir, Energie zu sparen und Spa&beta; zu haben, bei mir zu Hause?</div>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut  dolor in reprehenderit in quia...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron shadow-border" id="charts">
+        </div>
+    </div>
+    <script src="build/bundle.js"></script>
+    </body>
+</html>
